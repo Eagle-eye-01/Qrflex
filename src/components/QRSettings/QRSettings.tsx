@@ -29,7 +29,7 @@ export const QRSettings: React.FC<QRSettingsProps> = ({
   return (
     <div className="space-y-6">
       {/* Step 1: Select Type & Data Entry */}
-      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl space-y-4">
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-850 bg-white border-2 dark:border-obsidian-700 border-slate-200 shadow-xl space-y-4 transition-all duration-300 spring-hover">
         <TypeSelector currentType={currentType} onChangeType={onChangeType} />
         <TypeForms
           type={currentType}
@@ -40,12 +40,12 @@ export const QRSettings: React.FC<QRSettingsProps> = ({
       </div>
 
       {/* Step 2: Visual Style DNA Presets */}
-      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl">
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-850 bg-white border-2 dark:border-obsidian-700 border-slate-200 shadow-xl transition-all duration-300 spring-hover">
         <Presets currentDesign={design} onSelectPreset={onSelectPreset} />
       </div>
 
       {/* Step 3: Granular Customization Engine */}
-      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl">
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-850 bg-white border-2 dark:border-obsidian-700 border-slate-200 shadow-xl transition-all duration-300 spring-hover">
         <Customization design={design} onChangeDesign={onChangeDesign} />
       </div>
     </div>

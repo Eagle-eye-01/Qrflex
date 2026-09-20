@@ -117,7 +117,7 @@ export const Customization: React.FC<CustomizationProps> = ({ design, onChangeDe
             step={10}
             value={design.size}
             onChange={(e) => onChangeDesign({ size: Number(e.target.value) })}
-            className="w-full h-2 bg-slate-300 dark:bg-obsidian-700 rounded-lg appearance-none cursor-pointer accent-volt"
+            className="w-full h-2 bg-slate-300 dark:bg-obsidian-700 rounded-lg appearance-none cursor-pointer dark:accent-volt accent-slate-900"
           />
           <div className="flex justify-between font-mono text-[10px] text-slate-400">
             <span>COMPACT (160)</span>
@@ -144,7 +144,7 @@ export const Customization: React.FC<CustomizationProps> = ({ design, onChangeDe
             step={1}
             value={design.margin}
             onChange={(e) => onChangeDesign({ margin: Number(e.target.value) })}
-            className="w-full h-2 bg-slate-300 dark:bg-obsidian-700 rounded-lg appearance-none cursor-pointer accent-volt"
+            className="w-full h-2 bg-slate-300 dark:bg-obsidian-700 rounded-lg appearance-none cursor-pointer dark:accent-volt accent-slate-900"
           />
           <p className="font-mono text-[10px] text-slate-400">
             Standard barcode reader optics mandate a minimum 2-block clear quiet boundary.

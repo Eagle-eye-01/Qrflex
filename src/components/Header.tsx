@@ -28,14 +28,14 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b dark:border-obsidian-700/80 border-slate-200 dark:bg-obsidian-900/90 bg-white/95 backdrop-blur-xl transition-colors duration-200">
+    <header className="sticky top-0 z-30 w-full border-b dark:border-obsidian-700/80 border-slate-200/90 dark:bg-obsidian-900/90 bg-white/90 backdrop-blur-2xl transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         {/* Left: Brand / Logo */}
         <div className="flex items-center space-x-3.5">
-          <div className="relative group">
-            <div className="h-11 w-11 rounded-lg bg-volt p-0.5 shadow-lg shadow-volt/10 transition-transform group-hover:scale-105 group-hover:rotate-2 duration-300">
+          <div className="relative group cursor-pointer">
+            <div className="h-11 w-11 rounded-lg bg-volt p-0.5 shadow-lg shadow-volt/20 transition-all duration-300 group-hover:scale-105 group-hover:rotate-3">
               <div className="h-full w-full bg-black rounded-[6px] flex items-center justify-center">
-                <QrCode className="w-6 h-6 text-volt transition-transform group-hover:scale-110 duration-300" />
+                <QrCode className="w-6 h-6 text-volt transition-transform duration-300 group-hover:scale-110" />
               </div>
             </div>
             <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
@@ -46,10 +46,10 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white text-slate-950 uppercase">
+              <span className="font-display text-2xl sm:text-3xl font-black tracking-tight dark:text-white text-slate-950 uppercase">
                 QRFLEX<span className="text-volt">.</span>
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase dark:bg-obsidian-700 dark:text-volt bg-slate-900 text-volt border dark:border-obsidian-600 border-black">
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase dark:bg-obsidian-700 dark:text-volt bg-slate-900 text-volt border dark:border-obsidian-600 border-black shadow-sm">
                 STUDIO v2.5
               </span>
             </div>
@@ -61,19 +61,31 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right: Studio Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* SFX Audio Toggle */}
+          {/* SFX Audio Toggle with Dancing Waveform */}
           <button
             id="btn-toggle-sound"
             onClick={toggleSound}
-            className={`flex items-center space-x-1.5 px-2.5 py-2 rounded-lg text-xs font-mono font-semibold border transition-all ${
+            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-xs font-mono font-semibold border transition-all ${
               sfxEnabled
-                ? 'dark:border-volt/40 border-volt dark:bg-volt/10 bg-volt/20 text-volt dark:text-volt'
-                : 'dark:border-obsidian-700 border-slate-200 dark:text-slate-500 text-slate-400 hover:text-slate-200'
+                ? 'dark:border-volt/40 border-volt dark:bg-volt/10 bg-volt/20 text-slate-900 dark:text-volt shadow-sm shadow-volt/10'
+                : 'dark:border-obsidian-700 border-slate-300 dark:text-slate-500 text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
             title={sfxEnabled ? 'Tactile Sound: Active' : 'Tactile Sound: Muted'}
           >
-            {sfxEnabled ? <Volume2 className="w-3.5 h-3.5 text-volt" /> : <VolumeX className="w-3.5 h-3.5" />}
-            <span className="hidden md:inline">{sfxEnabled ? 'SFX ON' : 'SFX OFF'}</span>
+            {sfxEnabled ? (
+              <div className="flex items-center space-x-1">
+                <Volume2 className="w-3.5 h-3.5 text-volt" />
+                {/* Dancing Equalizer Audio Bars */}
+                <div className="flex items-end space-x-0.5 h-3.5 px-0.5">
+                  <span className="w-0.5 bg-volt rounded-full animate-sound-bar-1 inline-block" />
+                  <span className="w-0.5 bg-matrix rounded-full animate-sound-bar-2 inline-block" />
+                  <span className="w-0.5 bg-volt rounded-full animate-sound-bar-3 inline-block" />
+                </div>
+              </div>
+            ) : (
+              <VolumeX className="w-3.5 h-3.5" />
+            )}
+            <span className="hidden md:inline font-mono text-[11px] font-bold">{sfxEnabled ? 'SFX ON' : 'SFX OFF'}</span>
           </button>
 
           {/* History Drawer Button */}
@@ -85,8 +97,8 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             className={`relative inline-flex items-center space-x-2 px-3 py-2 rounded-lg text-xs font-mono font-bold tracking-wider uppercase border transition-all duration-200 ${
               isHistoryOpen
-                ? 'bg-volt text-black border-volt shadow-lg shadow-volt/20 font-extrabold'
-                : 'dark:border-obsidian-700 dark:text-slate-300 dark:hover:bg-obsidian-800 border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                ? 'bg-volt text-black border-volt shadow-lg shadow-volt/20 font-extrabold scale-[1.02]'
+                : 'dark:border-obsidian-700 dark:text-slate-300 dark:hover:bg-obsidian-800 border-slate-300 text-slate-800 hover:bg-slate-100 hover:text-slate-950'
             }`}
           >
             <History className="w-3.5 h-3.5" />
@@ -107,7 +119,7 @@ export const Header: React.FC<HeaderProps> = ({
               sound.playClick();
               onToggleDarkMode();
             }}
-            className="p-2.5 rounded-lg border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700 dark:hover:bg-obsidian-800 hover:bg-slate-100 transition-all focus:outline-none"
+            className="p-2.5 rounded-lg border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700 dark:hover:bg-obsidian-800 hover:bg-slate-200 transition-all focus:outline-none cursor-pointer"
             title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle Theme"
           >

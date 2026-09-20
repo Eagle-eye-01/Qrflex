@@ -23,7 +23,7 @@ const INITIAL_FORM_DATA: AllFormData = {
 const DEFAULT_DESIGN: QRDesignSettings = {
   size: 260,
   fgColor: '#e4ff1a',
-  bgColor: '#090a0f',
+  bgColor: '#08090d',
   level: 'H',
   margin: 2,
 };
@@ -33,7 +33,7 @@ export const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem(STORAGE_THEME_KEY);
     if (saved !== null) return saved === 'dark';
-    return true; // Default to sleek Lando/Mana dark aesthetic
+    return true; // Default to dark aesthetic
   });
 
   // App core state
@@ -52,7 +52,7 @@ export const App: React.FC = () => {
   });
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
-  // Apply dark mode class to <html>
+  // Apply dark mode class to <html> element
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
@@ -166,7 +166,21 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-obsidian-900 text-slate-100' : 'bg-slate-100 text-slate-900'} transition-colors duration-200`}>
+    <div className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${
+      darkMode ? 'dark bg-obsidian-900 text-slate-100' : 'light bg-slate-50 text-slate-900'
+    }`}>
+      {/* Jitter-inspired Fluid Moving Ambient Glow Blobs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Blob 1 - Top Left Neon Volt/Matrix */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 sm:w-[520px] sm:h-[520px] rounded-full blur-[120px] animate-orb-1 opacity-25 dark:opacity-20 bg-gradient-to-tr from-volt via-matrix to-cyber-purple mix-blend-screen pointer-events-none" />
+        
+        {/* Blob 2 - Bottom Right Violet/Cyan */}
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 sm:w-[580px] sm:h-[580px] rounded-full blur-[140px] animate-orb-2 opacity-25 dark:opacity-20 bg-gradient-to-bl from-cyber-purple via-blue-500 to-volt mix-blend-screen pointer-events-none" />
+        
+        {/* Blob 3 - Center Pulsing Subtlety */}
+        <div className="absolute top-1/3 left-1/4 w-80 h-80 rounded-full blur-[130px] animate-pulse-glow opacity-15 dark:opacity-10 bg-matrix pointer-events-none" />
+      </div>
+
       {/* Studio Header */}
       <Header
         darkMode={darkMode}
@@ -180,26 +194,26 @@ export const App: React.FC = () => {
       <MarqueeTicker />
 
       {/* Main Studio Viewport */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* High-Impact Editorial Hero Section */}
         <div className="mb-10 sm:mb-14">
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-black uppercase tracking-widest bg-volt text-black">
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-black uppercase tracking-widest bg-volt text-black shadow-sm animate-float">
               <Zap className="w-3 h-3 mr-1 fill-black" />
               OFF+BRAND ARCHITECTURE
             </span>
-            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700">
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700 shadow-sm animate-float-delayed">
               <ShieldCheck className="w-3 h-3 mr-1 text-matrix" />
               ISO/IEC 18004 COMPLIANT
             </span>
-            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-volt text-black">
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-volt text-black shadow-sm">
               <Activity className="w-3 h-3 mr-1 animate-pulse text-volt" />
               ENGINE: ACTIVE
             </span>
           </div>
 
           <h1 className="font-display font-black text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tighter leading-none dark:text-white text-slate-950">
-            ENGINEERED <span className="text-volt">QR CODES</span><br className="hidden sm:inline" /> FOR MODERN BRANDS<span className="text-volt">.</span>
+            ENGINEERED <span className="text-volt drop-shadow-[0_0_25px_rgba(228,255,26,0.3)]">QR CODES</span><br className="hidden sm:inline" /> FOR MODERN BRANDS<span className="text-volt">.</span>
           </h1>
 
           <p className="mt-4 font-mono text-xs sm:text-sm tracking-wide dark:text-slate-400 text-slate-600 max-w-2xl leading-relaxed">
