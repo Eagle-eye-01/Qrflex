@@ -4,8 +4,12 @@ import type { QRDesignSettings, QRType } from '../../types/qr';
 import { analyzeContrast } from '../../utils/contrast';
 import { ReliabilityAlert } from './ReliabilityAlert';
 import { ExportActions } from './ExportActions';
-import { Eye, Terminal, ScanLine, Crosshair } from 'lucide-react';
+import { BeforeAfterSwipe } from './BeforeAfterSwipe';
+import { DeviceMockup } from './DeviceMockup';
+import { Eye, Terminal, ScanLine, Crosshair, SplitSquareVertical, Laptop, Box } from 'lucide-react';
 import { sound } from '../../utils/audio';
+
+type ViewMode = 'standalone' | 'swipe' | 'mockup';
 
 interface QRPreviewProps {
   payload: string;
@@ -20,6 +24,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
   design,
   hasErrors,
 }) => {
+  const [viewMode, setViewMode] = useState<ViewMode>('standalone');
   const [laserActive, setLaserActive] = useState(true);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,7 +34,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
 
   // 3D Perspective Tilt tracking with fluid spring recovery
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (viewMode !== 'standalone' || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
@@ -61,8 +66,8 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
           <span>EVAL: {isValid ? 'ONLINE' : 'STANDBY'}</span>
         </div>
 
-        {/* Card Header & Laser Toggle */}
-        <div className="w-full flex items-center justify-between pb-3.5 border-b dark:border-obsidian-700 border-slate-200 mt-4 mb-6">
+        {/* Card Header */}
+        <div className="w-full flex items-center justify-between pb-3.5 border-b dark:border-obsidian-700 border-slate-200 mt-4 mb-4">
           <div className="flex items-center space-x-2">
             <span className="flex h-2 w-2 rounded-full bg-volt animate-ping" />
             <span className="font-display font-bold text-sm tracking-wider uppercase dark:text-white text-slate-900">
@@ -70,94 +75,140 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
             </span>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <button
-              type="button"
-              onClick={toggleLaser}
-              className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded text-[10px] font-mono font-bold tracking-wider uppercase border transition-all cursor-pointer ${
-                laserActive
-                  ? 'border-volt bg-volt text-black shadow-md shadow-volt/20'
-                  : 'dark:border-obsidian-600 border-slate-300 dark:text-slate-400 text-slate-600 hover:border-volt'
-              }`}
-            >
-              <ScanLine className="w-3 h-3" />
-              <span>{laserActive ? 'LASER ON' : 'LASER OFF'}</span>
-            </button>
-            <span className="text-[10px] font-mono font-bold px-2 py-1 rounded bg-black text-volt border border-volt/40 uppercase">
-              {type}
-            </span>
-          </div>
+          <span className="text-[10px] font-mono font-bold px-2 py-1 rounded bg-black text-volt border border-volt/40 uppercase">
+            {type}
+          </span>
         </div>
 
-        {/* 3D Perspective Stage Pedestal with Jitter Rotating Animated Glow Border */}
-        <div
-          ref={containerRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{ perspective: 1000 }}
-          className="w-full flex justify-center py-2"
-        >
-          {/* Animated Glow Border Wrapper */}
-          <div className={`relative p-[3px] rounded-2xl transition-all duration-300 ${
-            isValid ? 'jitter-animated-border shadow-2xl' : ''
-          }`}>
-            <div
-              id="qr-render-container"
-              className="relative z-10 p-6 sm:p-7 rounded-[13px] flex items-center justify-center transition-transform duration-150 ease-out shadow-2xl overflow-hidden"
-              style={{
-                backgroundColor: isValid ? design.bgColor : (document.documentElement.classList.contains('dark') ? '#050608' : '#f1f5f9'),
-                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                minHeight: '290px',
-                minWidth: '290px',
+        {/* Jitter View Mode Tabs (Standalone, Before/After Swipe, MacBook Showcase) */}
+        <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl dark:bg-obsidian-900 bg-slate-100 border dark:border-obsidian-700 border-slate-300 mb-5">
+          {[
+            { id: 'standalone', label: '3D STAGE', icon: Box },
+            { id: 'swipe', label: 'SWIPE A/B', icon: SplitSquareVertical },
+            { id: 'mockup', label: 'MACBOOK', icon: Laptop },
+          ].map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => {
+                sound.playSwitch();
+                setViewMode(id as ViewMode);
               }}
+              className={`flex items-center justify-center space-x-1 py-1.5 px-2 rounded-lg font-mono text-[10px] font-bold tracking-wider uppercase transition-all duration-150 cursor-pointer ${
+                viewMode === id
+                  ? 'bg-volt text-black shadow-md shadow-volt/20 scale-[1.02]'
+                  : 'dark:text-slate-400 text-slate-600 hover:text-black dark:hover:text-white'
+              }`}
             >
-              {/* Fluid Animated Laser Scanner Sweep Line */}
-              {isValid && laserActive && (
-                <div className="absolute inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-volt to-transparent shadow-[0_0_18px_#e4ff1a] animate-laser-sweep pointer-events-none z-20 opacity-90" />
-              )}
+              <Icon className="w-3 h-3 flex-shrink-0" />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
 
-              {isValid ? (
-                <div className="relative group flex items-center justify-center">
-                  <QRCodeCanvas
-                    id="qrcode-canvas"
-                    value={payload}
-                    size={design.size}
-                    fgColor={design.fgColor}
-                    bgColor={design.bgColor}
-                    level={design.level}
-                    marginSize={design.margin}
-                    className="max-w-full h-auto rounded shadow-sm select-none"
-                  />
-                  <div className="hidden">
-                    <QRCodeSVG
-                      id="qrcode-svg"
+        {/* Presentation Area depending on ViewMode */}
+        {viewMode === 'standalone' && (
+          <div
+            ref={containerRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ perspective: 1000 }}
+            className="w-full flex flex-col items-center py-2"
+          >
+            {/* Animated Glow Border Wrapper */}
+            <div className={`relative p-[3px] rounded-2xl transition-all duration-300 ${
+              isValid ? 'jitter-animated-border shadow-2xl' : ''
+            }`}>
+              <div
+                id="qr-render-container"
+                className="relative z-10 p-6 sm:p-7 rounded-[13px] flex items-center justify-center transition-transform duration-150 ease-out shadow-2xl overflow-hidden"
+                style={{
+                  backgroundColor: isValid ? design.bgColor : '#050608',
+                  transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                  minHeight: '290px',
+                  minWidth: '290px',
+                }}
+              >
+                {/* Fluid Animated Laser Scanner Sweep Line */}
+                {isValid && laserActive && (
+                  <div className="absolute inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-volt to-transparent shadow-[0_0_18px_#e4ff1a] animate-laser-sweep pointer-events-none z-20 opacity-90" />
+                )}
+
+                {isValid ? (
+                  <div className="relative group flex items-center justify-center">
+                    <QRCodeCanvas
+                      id="qrcode-canvas"
                       value={payload}
                       size={design.size}
                       fgColor={design.fgColor}
                       bgColor={design.bgColor}
                       level={design.level}
                       marginSize={design.margin}
+                      className="max-w-full h-auto rounded shadow-sm select-none"
                     />
+                    <div className="hidden">
+                      <QRCodeSVG
+                        id="qrcode-svg"
+                        value={payload}
+                        size={design.size}
+                        fgColor={design.fgColor}
+                        bgColor={design.bgColor}
+                        level={design.level}
+                        marginSize={design.margin}
+                      />
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center text-center p-8 space-y-3">
-                  <div className="w-16 h-16 rounded-xl dark:bg-obsidian-900 bg-slate-200 dark:border-obsidian-700 border-slate-300 border flex items-center justify-center text-volt">
-                    <Eye className="w-7 h-7 animate-pulse" />
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-center p-8 space-y-3">
+                    <div className="w-16 h-16 rounded-xl dark:bg-obsidian-900 bg-slate-200 dark:border-obsidian-700 border-slate-300 border flex items-center justify-center text-volt">
+                      <Eye className="w-7 h-7 animate-pulse" />
+                    </div>
+                    <div className="space-y-1">
+                      <p className="font-display font-bold text-sm dark:text-white text-slate-900 uppercase tracking-wider">
+                        FEED MATRIX DATA
+                      </p>
+                      <p className="text-xs font-mono dark:text-slate-400 text-slate-500 max-w-xs">
+                        Input valid content into the console on the left to activate instant laser rendering.
+                      </p>
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <p className="font-display font-bold text-sm dark:text-white text-slate-900 uppercase tracking-wider">
-                      FEED MATRIX DATA
-                    </p>
-                    <p className="text-xs font-mono dark:text-slate-400 text-slate-500 max-w-xs">
-                      Input valid content into the console on the left to activate instant laser rendering.
-                    </p>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
+
+            {/* Laser Toggle Button under stage */}
+            {isValid && (
+              <div className="mt-3 flex justify-center">
+                <button
+                  type="button"
+                  onClick={toggleLaser}
+                  className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border transition-all cursor-pointer ${
+                    laserActive
+                      ? 'border-volt bg-volt text-black shadow-md shadow-volt/20'
+                      : 'dark:border-obsidian-600 border-slate-300 dark:text-slate-400 text-slate-600 hover:border-volt'
+                  }`}
+                >
+                  <ScanLine className="w-3 h-3" />
+                  <span>{laserActive ? 'LASER ACTIVE' : 'LASER MUTED'}</span>
+                </button>
+              </div>
+            )}
           </div>
-        </div>
+        )}
+
+        {/* ViewMode: Before/After Swipe Slider (Jitter Template Spec) */}
+        {viewMode === 'swipe' && isValid && (
+          <div className="py-2">
+            <BeforeAfterSwipe payload={payload} design={design} />
+          </div>
+        )}
+
+        {/* ViewMode: MacBook Device Showcase (Aceternity UI Spec) */}
+        {viewMode === 'mockup' && isValid && (
+          <div className="py-2">
+            <DeviceMockup payload={payload} design={design} />
+          </div>
+        )}
 
         {/* Live Scannability Engine & Telemetry */}
         {isValid && (

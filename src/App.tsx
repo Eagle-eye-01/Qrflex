@@ -7,6 +7,7 @@ import { MarqueeTicker } from './components/MarqueeTicker';
 import { QRSettings } from './components/QRSettings/QRSettings';
 import { QRPreview } from './components/QRPreview/QRPreview';
 import { QRHistory } from './components/QRHistory/QRHistory';
+import { ProceduralGradient } from './components/ProceduralGradient';
 import { Zap, ShieldCheck, Activity } from 'lucide-react';
 
 const STORAGE_HISTORY_KEY = 'qrflex_history_v2';
@@ -169,6 +170,9 @@ export const App: React.FC = () => {
     <div className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${
       darkMode ? 'dark bg-obsidian-900 text-slate-100' : 'light bg-slate-50 text-slate-900'
     }`}>
+      {/* 60fps Jitter Procedural Liquid Gradient Canvas Shader */}
+      <ProceduralGradient darkMode={darkMode} />
+
       {/* Jitter-inspired Fluid Moving Ambient Glow Blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         {/* Blob 1 - Top Left Neon Volt/Matrix */}
