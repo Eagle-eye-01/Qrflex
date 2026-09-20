@@ -3,26 +3,28 @@ import type { QRType, AllFormData, QRDesignSettings, Preset, HistoryItem } from 
 import { buildQRPayload, getPayloadDisplaySummary } from './utils/qrPayload';
 import { validateForm } from './utils/validation';
 import { Header } from './components/Header';
+import { MarqueeTicker } from './components/MarqueeTicker';
 import { QRSettings } from './components/QRSettings/QRSettings';
 import { QRPreview } from './components/QRPreview/QRPreview';
 import { QRHistory } from './components/QRHistory/QRHistory';
+import { Zap, ShieldCheck, Activity } from 'lucide-react';
 
-const STORAGE_HISTORY_KEY = 'qrflex_history_v1';
-const STORAGE_THEME_KEY = 'qrflex_theme_v1';
+const STORAGE_HISTORY_KEY = 'qrflex_history_v2';
+const STORAGE_THEME_KEY = 'qrflex_theme_v2';
 
 const INITIAL_FORM_DATA: AllFormData = {
-  url: { url: 'https://github.com' },
-  text: { text: 'Welcome to QRFlex — High Fidelity QR Code Studio' },
-  email: { email: 'hello@example.com', subject: 'Inquiry', body: 'Hello!' },
+  url: { url: 'https://landonorris.com' },
+  text: { text: 'QRFLEX // HIGH-OCTANE VECTOR QR ENGINE // OFF-BRAND SPEC' },
+  email: { email: 'contact@offbrand.io', subject: 'Collaboration Inquiry', body: 'Let us build something incredible.' },
   phone: { phone: '+1 555 019 2834' },
-  wifi: { ssid: 'Studio_Guest_WiFi', password: 'securepassword123', encryption: 'WPA', hidden: false },
+  wifi: { ssid: 'LANDO_PITLANE_5G', password: 'racingvoltpassword', encryption: 'WPA', hidden: false },
 };
 
 const DEFAULT_DESIGN: QRDesignSettings = {
   size: 260,
-  fgColor: '#000000',
-  bgColor: '#ffffff',
-  level: 'M',
+  fgColor: '#e4ff1a',
+  bgColor: '#090a0f',
+  level: 'H',
   margin: 2,
 };
 
@@ -31,7 +33,7 @@ export const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem(STORAGE_THEME_KEY);
     if (saved !== null) return saved === 'dark';
-    return true; // Default to sleek dark aesthetic
+    return true; // Default to sleek Lando/Mana dark aesthetic
   });
 
   // App core state
@@ -91,7 +93,6 @@ export const App: React.FC = () => {
     if (!payload || hasErrors) return;
 
     const timer = setTimeout(() => {
-      // Don't duplicate if identical payload was just recorded
       if (lastSavedPayloadRef.current === payload) return;
 
       const title = getPayloadDisplaySummary(currentType, formData);
@@ -108,7 +109,6 @@ export const App: React.FC = () => {
       lastSavedPayloadRef.current = payload;
 
       setHistory((prev) => {
-        // Keep up to 20 most recent unique entries
         const filtered = prev.filter((p) => p.payload !== payload);
         return [newItem, ...filtered].slice(0, 20);
       });
@@ -117,7 +117,7 @@ export const App: React.FC = () => {
     return () => clearTimeout(timer);
   }, [payload, hasErrors, currentType, formData, design]);
 
-  // Form change handlers
+  // Handlers
   const handleFormDataChange = (type: QRType, key: string, value: any) => {
     setFormData((prev) => ({
       ...prev,
@@ -166,8 +166,8 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} transition-colors duration-200`}>
-      {/* Sleek App Header */}
+    <div className={`min-h-screen ${darkMode ? 'bg-obsidian-900 text-slate-100' : 'bg-slate-100 text-slate-900'} transition-colors duration-200`}>
+      {/* Studio Header */}
       <Header
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
@@ -176,21 +176,40 @@ export const App: React.FC = () => {
         isHistoryOpen={isHistoryOpen}
       />
 
-      {/* Main Content Layout */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Title and Subtitle */}
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight flex items-center space-x-2">
-            <span className={darkMode ? 'text-slate-100' : 'text-slate-900'}>QR Studio & Designer</span>
+      {/* Kinetic Marquee Ticker */}
+      <MarqueeTicker />
+
+      {/* Main Studio Viewport */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        {/* High-Impact Editorial Hero Section */}
+        <div className="mb-10 sm:mb-14">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-black uppercase tracking-widest bg-volt text-black">
+              <Zap className="w-3 h-3 mr-1 fill-black" />
+              OFF+BRAND ARCHITECTURE
+            </span>
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700">
+              <ShieldCheck className="w-3 h-3 mr-1 text-matrix" />
+              ISO/IEC 18004 COMPLIANT
+            </span>
+            <span className="inline-flex items-center px-2.5 py-1 rounded font-mono text-[10px] font-bold uppercase tracking-widest dark:bg-obsidian-800 bg-white border dark:border-obsidian-700 border-slate-300 dark:text-volt text-black">
+              <Activity className="w-3 h-3 mr-1 animate-pulse text-volt" />
+              ENGINE: ACTIVE
+            </span>
+          </div>
+
+          <h1 className="font-display font-black text-4xl sm:text-6xl lg:text-7xl uppercase tracking-tighter leading-none dark:text-white text-slate-950">
+            ENGINEERED <span className="text-volt">QR CODES</span><br className="hidden sm:inline" /> FOR MODERN BRANDS<span className="text-volt">.</span>
           </h1>
-          <p className={`mt-1 text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-            Generate, customize, and export scannable QR codes for web links, text, emails, phone numbers, and Wi-Fi networks.
+
+          <p className="mt-4 font-mono text-xs sm:text-sm tracking-wide dark:text-slate-400 text-slate-600 max-w-2xl leading-relaxed">
+            Ultra-crisp real-time matrix rendering with interactive 3D perspective, laser optical verification, and vector SVG exports designed for creators, motorsport, and packaging.
           </p>
         </div>
 
-        {/* Two-column layout: Left = Configuration, Right = Real-time Preview */}
+        {/* Two-Column Studio Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Configuration Settings */}
+          {/* Left Column: Command & Configuration Deck */}
           <div className="lg:col-span-7 space-y-6">
             <QRSettings
               currentType={currentType}
@@ -204,7 +223,7 @@ export const App: React.FC = () => {
             />
           </div>
 
-          {/* Right Column: Real-time Live Preview & Scannability */}
+          {/* Right Column: 3D Live Matrix Stage & Telemetry */}
           <div className="lg:col-span-5">
             <QRPreview
               payload={payload}
@@ -216,7 +235,7 @@ export const App: React.FC = () => {
         </div>
       </main>
 
-      {/* History Drawer */}
+      {/* Recents History Drawer */}
       <QRHistory
         isOpen={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}

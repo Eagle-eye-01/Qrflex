@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Download, FileCode, Copy, Check, Share2 } from 'lucide-react';
 import { downloadQRCodePNG, downloadQRCodeSVG, copyQRCodeToClipboard } from '../../utils/export';
+import { sound } from '../../utils/audio';
 
 interface ExportActionsProps {
   containerId: string;
@@ -24,6 +25,7 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
     try {
       setDownloading(true);
       await downloadQRCodePNG(containerId, `qrcode-${Date.now()}.png`, size);
+      sound.playSuccess();
     } catch (err) {
       console.error(err);
     } finally {
@@ -35,6 +37,7 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
     if (disabled) return;
     try {
       downloadQRCodeSVG(containerId, `qrcode-${Date.now()}.svg`);
+      sound.playSuccess();
     } catch (err) {
       console.error(err);
     }
@@ -44,6 +47,7 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
     if (disabled) return;
     const success = await copyQRCodeToClipboard(containerId);
     if (success) {
+      sound.playSuccess();
       setCopiedImage(true);
       setTimeout(() => setCopiedImage(false), 2000);
     }
@@ -52,6 +56,7 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
   const handleCopyPayload = async () => {
     if (disabled || !payload) return;
     await navigator.clipboard.writeText(payload);
+    sound.playSuccess();
     setCopiedPayload(true);
     setTimeout(() => setCopiedPayload(false), 2000);
   };
@@ -65,10 +70,10 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
           type="button"
           disabled={disabled}
           onClick={handleDownloadPNG}
-          className="flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-md shadow-purple-600/25 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center justify-center space-x-2 py-3.5 px-4 rounded-xl bg-volt hover:bg-volt-light active:bg-volt-dark text-black font-display font-extrabold text-sm tracking-wider uppercase shadow-xl shadow-volt/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
         >
-          <Download className="w-4 h-4" />
-          <span>Download PNG</span>
+          <Download className="w-4 h-4 stroke-[2.5]" />
+          <span>DOWNLOAD PNG</span>
         </button>
 
         <button
@@ -76,31 +81,31 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
           type="button"
           disabled={disabled}
           onClick={handleDownloadSVG}
-          className="flex items-center justify-center space-x-2 py-3 px-4 rounded-xl dark:bg-slate-900 bg-slate-100 border dark:border-slate-700 border-slate-300 hover:border-slate-400 dark:hover:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-800 dark:text-slate-100 text-slate-800 font-semibold text-sm active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center justify-center space-x-2 py-3.5 px-4 rounded-xl dark:bg-black bg-slate-900 border-2 border-volt hover:border-volt-light text-volt font-display font-extrabold text-sm tracking-wider uppercase hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-30 disabled:pointer-events-none cursor-pointer shadow-lg shadow-black/40"
         >
-          <FileCode className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-          <span>Download SVG</span>
+          <FileCode className="w-4 h-4 stroke-[2.5]" />
+          <span>DOWNLOAD SVG</span>
         </button>
       </div>
 
-      {/* Secondary Copy Actions */}
+      {/* Secondary Quick-Copy Actions */}
       <div className="grid grid-cols-2 gap-2 pt-1">
         <button
           id="btn-copy-image"
           type="button"
           disabled={disabled}
           onClick={handleCopyImage}
-          className="flex items-center justify-center space-x-1.5 py-2 px-3 rounded-lg dark:bg-slate-900/60 bg-slate-100 dark:border-slate-800 border-slate-200 hover:border-slate-300 dark:hover:border-slate-700 text-xs dark:text-slate-300 text-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-lg dark:bg-obsidian-900 bg-slate-100 border dark:border-obsidian-700 border-slate-300 font-mono text-xs font-bold uppercase tracking-wider dark:text-slate-300 text-slate-800 hover:border-volt hover:text-black dark:hover:text-volt transition-colors disabled:opacity-30"
         >
           {copiedImage ? (
             <>
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied Image!</span>
+              <Check className="w-3.5 h-3.5 text-matrix" />
+              <span className="text-matrix">COPIED PNG!</span>
             </>
           ) : (
             <>
-              <Copy className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
-              <span>Copy Image</span>
+              <Copy className="w-3.5 h-3.5 text-volt" />
+              <span>COPY IMAGE</span>
             </>
           )}
         </button>
@@ -110,17 +115,17 @@ export const ExportActions: React.FC<ExportActionsProps> = ({
           type="button"
           disabled={disabled || !payload}
           onClick={handleCopyPayload}
-          className="flex items-center justify-center space-x-1.5 py-2 px-3 rounded-lg dark:bg-slate-900/60 bg-slate-100 dark:border-slate-800 border-slate-200 hover:border-slate-300 dark:hover:border-slate-700 text-xs dark:text-slate-300 text-slate-700 hover:text-slate-900 dark:hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-lg dark:bg-obsidian-900 bg-slate-100 border dark:border-obsidian-700 border-slate-300 font-mono text-xs font-bold uppercase tracking-wider dark:text-slate-300 text-slate-800 hover:border-volt hover:text-black dark:hover:text-volt transition-colors disabled:opacity-30"
         >
           {copiedPayload ? (
             <>
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied Text!</span>
+              <Check className="w-3.5 h-3.5 text-matrix" />
+              <span className="text-matrix">COPIED TEXT!</span>
             </>
           ) : (
             <>
-              <Share2 className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
-              <span>Copy Payload</span>
+              <Share2 className="w-3.5 h-3.5 text-volt" />
+              <span>COPY TEXT</span>
             </>
           )}
         </button>

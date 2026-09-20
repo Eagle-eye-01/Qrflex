@@ -28,8 +28,8 @@ export const QRSettings: React.FC<QRSettingsProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      {/* Step 1: Select Type */}
-      <div className="p-5 sm:p-6 rounded-3xl dark:bg-slate-900/60 bg-white border dark:border-slate-800/80 border-slate-200/80 backdrop-blur-sm shadow-sm space-y-4">
+      {/* Step 1: Select Type & Data Entry */}
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl space-y-4">
         <TypeSelector currentType={currentType} onChangeType={onChangeType} />
         <TypeForms
           type={currentType}
@@ -39,13 +39,13 @@ export const QRSettings: React.FC<QRSettingsProps> = ({
         />
       </div>
 
-      {/* Step 2: Visual Presets */}
-      <div className="p-5 sm:p-6 rounded-3xl dark:bg-slate-900/60 bg-white border dark:border-slate-800/80 border-slate-200/80 backdrop-blur-sm shadow-sm">
+      {/* Step 2: Visual Style DNA Presets */}
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl">
         <Presets currentDesign={design} onSelectPreset={onSelectPreset} />
       </div>
 
-      {/* Step 3: Granular Customization */}
-      <div className="p-5 sm:p-6 rounded-3xl dark:bg-slate-900/60 bg-white border dark:border-slate-800/80 border-slate-200/80 backdrop-blur-sm shadow-sm">
+      {/* Step 3: Granular Customization Engine */}
+      <div className="relative p-6 sm:p-7 rounded-2xl dark:bg-obsidian-800/90 bg-white border-2 dark:border-obsidian-700 border-slate-900/10 shadow-xl">
         <Customization design={design} onChangeDesign={onChangeDesign} />
       </div>
     </div>

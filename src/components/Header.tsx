@@ -1,5 +1,6 @@
-import React from 'react';
-import { QrCode, History, Sun, Moon, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { QrCode, History, Sun, Moon, Volume2, VolumeX } from 'lucide-react';
+import { sound } from '../utils/audio';
 
 interface HeaderProps {
   darkMode: boolean;
@@ -16,48 +17,84 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleHistory,
   isHistoryOpen,
 }) => {
+  const [sfxEnabled, setSfxEnabled] = useState(sound.enabled);
+
+  const toggleSound = () => {
+    sound.enabled = !sfxEnabled;
+    setSfxEnabled(!sfxEnabled);
+    if (!sfxEnabled) {
+      sound.playClick();
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-30 w-full backdrop-blur-md border-b dark:border-slate-800/80 border-slate-200/80 dark:bg-slate-950/75 bg-white/80 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo & Brand */}
-        <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-emerald-400 p-0.5 shadow-lg shadow-purple-500/20">
-            <div className="h-full w-full dark:bg-slate-950 bg-white rounded-[10px] flex items-center justify-center">
-              <QrCode className="w-5 h-5 text-purple-500 dark:text-purple-400" />
+    <header className="sticky top-0 z-30 w-full border-b dark:border-obsidian-700/80 border-slate-200 dark:bg-obsidian-900/90 bg-white/95 backdrop-blur-xl transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+        {/* Left: Brand / Logo */}
+        <div className="flex items-center space-x-3.5">
+          <div className="relative group">
+            <div className="h-11 w-11 rounded-lg bg-volt p-0.5 shadow-lg shadow-volt/10 transition-transform group-hover:scale-105 group-hover:rotate-2 duration-300">
+              <div className="h-full w-full bg-black rounded-[6px] flex items-center justify-center">
+                <QrCode className="w-6 h-6 text-volt transition-transform group-hover:scale-110 duration-300" />
+              </div>
             </div>
+            <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-matrix opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-matrix"></span>
+            </span>
           </div>
+
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-emerald-500 dark:from-purple-400 dark:via-purple-200 dark:to-emerald-400 bg-clip-text text-transparent">
-                QRFlex
+              <span className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white text-slate-950 uppercase">
+                QRFLEX<span className="text-volt">.</span>
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium dark:bg-purple-950/70 dark:border-purple-500/30 dark:text-purple-300 bg-purple-50 border border-purple-200 text-purple-700">
-                <Sparkles className="w-3 h-3 mr-1 text-emerald-500" /> Pro Studio
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase dark:bg-obsidian-700 dark:text-volt bg-slate-900 text-volt border dark:border-obsidian-600 border-black">
+                STUDIO v2.5
               </span>
             </div>
-            <p className="text-xs dark:text-slate-400 text-slate-500 hidden sm:block">
-              Professional QR Code Generator & Designer
+            <p className="text-[11px] font-mono tracking-wider uppercase dark:text-slate-400 text-slate-500 hidden sm:block">
+              HIGH-OCTANE VECTOR QR ENGINE &bull; OFF-BRAND SPEC
             </p>
           </div>
         </div>
 
-        {/* Actions */}
+        {/* Right: Studio Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* SFX Audio Toggle */}
+          <button
+            id="btn-toggle-sound"
+            onClick={toggleSound}
+            className={`flex items-center space-x-1.5 px-2.5 py-2 rounded-lg text-xs font-mono font-semibold border transition-all ${
+              sfxEnabled
+                ? 'dark:border-volt/40 border-volt dark:bg-volt/10 bg-volt/20 text-volt dark:text-volt'
+                : 'dark:border-obsidian-700 border-slate-200 dark:text-slate-500 text-slate-400 hover:text-slate-200'
+            }`}
+            title={sfxEnabled ? 'Tactile Sound: Active' : 'Tactile Sound: Muted'}
+          >
+            {sfxEnabled ? <Volume2 className="w-3.5 h-3.5 text-volt" /> : <VolumeX className="w-3.5 h-3.5" />}
+            <span className="hidden md:inline">{sfxEnabled ? 'SFX ON' : 'SFX OFF'}</span>
+          </button>
+
           {/* History Drawer Button */}
           <button
             id="btn-toggle-history"
-            onClick={onToggleHistory}
-            className={`relative inline-flex items-center space-x-2 px-3 py-2 rounded-xl text-sm font-medium border transition-all duration-200 ${
+            onClick={() => {
+              sound.playSwitch();
+              onToggleHistory();
+            }}
+            className={`relative inline-flex items-center space-x-2 px-3 py-2 rounded-lg text-xs font-mono font-bold tracking-wider uppercase border transition-all duration-200 ${
               isHistoryOpen
-                ? 'dark:bg-purple-600/20 dark:border-purple-500 dark:text-purple-300 bg-purple-50 border-purple-400 text-purple-700 shadow-sm shadow-purple-500/10'
-                : 'dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                ? 'bg-volt text-black border-volt shadow-lg shadow-volt/20 font-extrabold'
+                : 'dark:border-obsidian-700 dark:text-slate-300 dark:hover:bg-obsidian-800 border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
             }`}
-            title="Recent QR Codes"
           >
-            <History className="w-4 h-4 text-purple-500 dark:text-purple-400" />
-            <span className="hidden md:inline">Recent</span>
+            <History className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">RECENTS</span>
             {historyCount > 0 && (
-              <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-semibold rounded-full dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30 bg-emerald-50 text-emerald-700 border border-emerald-300">
+              <span className={`inline-flex items-center justify-center px-1.5 py-0.2 rounded text-[10px] font-mono font-black ${
+                isHistoryOpen ? 'bg-black text-volt' : 'bg-volt text-black'
+              }`}>
                 {historyCount}
               </span>
             )}
@@ -66,15 +103,18 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Dark / Light Toggle */}
           <button
             id="btn-toggle-theme"
-            onClick={onToggleDarkMode}
-            className="p-2 rounded-xl border dark:border-slate-800 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-900 border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            onClick={() => {
+              sound.playClick();
+              onToggleDarkMode();
+            }}
+            className="p-2.5 rounded-lg border dark:border-obsidian-700 border-slate-300 dark:text-slate-300 text-slate-700 dark:hover:bg-obsidian-800 hover:bg-slate-100 transition-all focus:outline-none"
             title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle Theme"
           >
             {darkMode ? (
-              <Sun className="w-4 h-4 text-amber-400 transition-transform rotate-0 hover:rotate-45 duration-300" />
+              <Sun className="w-4 h-4 text-volt transition-transform rotate-0 hover:rotate-90 duration-300" />
             ) : (
-              <Moon className="w-4 h-4 text-purple-600 transition-transform -rotate-12 hover:rotate-0 duration-300" />
+              <Moon className="w-4 h-4 text-slate-900 transition-transform -rotate-12 hover:rotate-0 duration-300" />
             )}
           </button>
         </div>
