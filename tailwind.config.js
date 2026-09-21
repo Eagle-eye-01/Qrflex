@@ -40,6 +40,7 @@ export default {
         'float-delayed': 'float 6s ease-in-out 3s infinite',
         'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
         'spin-slow': 'spin 12s linear infinite',
+        'scan': 'scan 3s ease-in-out infinite',
         'laser-sweep': 'laserSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate',
         'sound-bar-1': 'soundBar 0.8s ease-in-out infinite alternate',
         'sound-bar-2': 'soundBar 1.1s ease-in-out 0.2s infinite alternate',
@@ -59,6 +60,10 @@ export default {
         pulseGlow: {
           '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
           '50%': { opacity: '0.7', transform: 'scale(1.05)' },
+        },
+        scan: {
+          '0%, 100%': { transform: 'translateY(-120px)', opacity: '0.2' },
+          '50%': { transform: 'translateY(120px)', opacity: '1' },
         },
         laserSweep: {
           '0%': { transform: 'translateY(0%)', opacity: '0.7' },

@@ -39,7 +39,7 @@ export const Customization: React.FC<CustomizationProps> = ({ design, onChangeDe
       <div className="space-y-4">
         {/* Colors (Foreground and Background) */}
         <div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Foreground */}
             <div className="p-3.5 dark:bg-obsidian-900 bg-slate-50 rounded-xl border-2 dark:border-obsidian-700 border-slate-300">
               <label htmlFor="color-fg" className="block font-mono text-[10px] font-bold uppercase dark:text-slate-300 text-slate-700 mb-1.5">
@@ -162,7 +162,7 @@ export const Customization: React.FC<CustomizationProps> = ({ design, onChangeDe
               {ERROR_LEVELS.find((e) => e.level === design.level)?.rate} RESTORATION
             </span>
           </div>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {ERROR_LEVELS.map(({ level, label, rate }) => (
               <button
                 key={level}

@@ -98,10 +98,10 @@ export const Presets: React.FC<PresetsProps> = ({ currentDesign, onSelectPreset 
                 )}
               </div>
 
-              <div className="font-display font-extrabold text-xs dark:text-white text-slate-950 group-hover:text-volt truncate">
+              <div className="font-display font-extrabold text-xs dark:text-white text-slate-900 group-hover:text-volt truncate">
                 {preset.name}
               </div>
-              <div className="font-mono text-[9px] font-bold text-slate-400 tracking-wider mt-0.5 truncate">
+              <div className="font-mono text-[9px] font-bold dark:text-slate-400 text-slate-500 tracking-wider mt-0.5 truncate">
                 {preset.badge}
               </div>
             </button>

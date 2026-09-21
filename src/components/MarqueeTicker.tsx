@@ -14,9 +14,9 @@ export const MarqueeTicker: React.FC = () => {
 
   return (
     <div className="w-full overflow-hidden bg-volt text-black border-y border-black font-mono text-[11px] font-bold tracking-widest uppercase select-none py-1.5 flex items-center relative z-20 shadow-sm">
-      <div className="flex items-center space-x-2 px-3 flex-shrink-0 bg-black text-volt py-0.5 rounded mr-3 ml-2">
-        <Radio className="w-3 h-3 animate-pulse text-matrix" />
-        <span className="text-[10px] tracking-normal font-sans font-bold">LIVE TELEMETRY</span>
+      <div className="relative z-10 flex items-center space-x-2 px-3 flex-shrink-0 dark:bg-black dark:text-volt bg-white text-black py-0.5 rounded mr-4 ml-2 border border-transparent dark:border-transparent shadow-sm">
+        <Radio className="w-3 h-3 animate-pulse dark:text-matrix text-slate-900" />
+        <span className="text-[10px] tracking-normal font-sans font-bold whitespace-nowrap">LIVE TELEMETRY</span>
       </div>
 
       <div className="flex animate-marquee whitespace-nowrap">

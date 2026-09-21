@@ -5,6 +5,11 @@
 @layer base {
   body {
     font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e4ff1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="22"></line><line x1="2" y1="12" x2="8" y2="12"></line><line x1="16" y1="12" x2="22" y2="12"></line></svg>') 12 12, crosshair;
+  }
+  
+  a, button, input, select, .cursor-pointer, [role="button"] {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23e4ff1a" stroke-width="2"><circle cx="12" cy="12" r="8" fill="%23e4ff1a" fill-opacity="0.2"/><circle cx="12" cy="12" r="2" fill="%23e4ff1a"/></svg>') 12 12, pointer !important;
   }
   
   code, pre {

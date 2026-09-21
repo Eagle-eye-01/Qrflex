@@ -49,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="font-display text-2xl sm:text-3xl font-black tracking-tight dark:text-white text-slate-950 uppercase">
                 QRFLEX<span className="text-volt">.</span>
               </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase dark:bg-obsidian-700 dark:text-volt bg-slate-900 text-volt border dark:border-obsidian-600 border-black shadow-sm">
+              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase dark:bg-obsidian-700 dark:text-volt bg-slate-200 text-slate-900 border dark:border-obsidian-600 border-slate-300 shadow-sm">
                 STUDIO v2.5
               </span>
             </div>

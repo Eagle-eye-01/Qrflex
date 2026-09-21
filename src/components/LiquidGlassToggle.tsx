@@ -61,8 +61,8 @@ export function LiquidGlassToggle<T extends string>({
             <span>{option.label}</span>
             {option.badge && (
               <span
-                className={`text-[9px] font-black px-1 py-0.2 rounded ml-1 ${
-                  isActive ? 'bg-black text-volt' : 'dark:bg-obsidian-700 bg-slate-300 dark:text-slate-300 text-slate-700'
+                className={`text-[9px] font-black px-1.5 py-0.5 rounded ml-1 ${
+                  isActive ? 'dark:bg-black dark:text-volt bg-white text-slate-900 shadow-sm border border-slate-300 dark:border-transparent' : 'dark:bg-obsidian-700 bg-slate-300 dark:text-slate-300 text-slate-700'
                 }`}
               >
                 {option.badge}
