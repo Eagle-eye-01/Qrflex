@@ -36,6 +36,9 @@ export const App: React.FC = () => {
   // Theme state - session scoped
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('theme') === 'light') return false;
+      if (params.get('theme') === 'dark') return true;
       const saved = sessionStorage.getItem(STORAGE_THEME_KEY);
       if (saved !== null) return saved === 'dark';
     } catch {
@@ -295,9 +298,8 @@ export const App: React.FC = () => {
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
+          initial="visible"
+          animate="visible"
         >
           {/* Left Column: Command & Configuration Deck */}
           <motion.div className="lg:col-span-7 space-y-6" variants={itemVariants}>

@@ -27,7 +27,14 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
   design,
   hasErrors,
 }) => {
-  const [viewMode, setViewMode] = useState<ViewMode>('macbook');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const v = params.get('view');
+      if (v === 'iphone' || v === 'swipe' || v === 'macbook') return v;
+    } catch {}
+    return 'macbook';
+  });
   const [laserActive, setLaserActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 

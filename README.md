@@ -1,6 +1,6 @@
 # QRFlex — Professional QR Code Generator & Designer Studio
 
-[![Live Demo](https://img.shields.io/badge/demo-live%20on%20vercel-blueviolet?style=for-the-badge&logo=vercel)](https://qr-code-designer.vercel.app)
+[![Live Demo](https://img.shields.io/badge/demo-live%20on%20vercel-blueviolet?style=for-the-badge&logo=vercel)](https://qrflex-hazel.vercel.app/)
 [![React](https://img.shields.io/badge/React-19-61dafb?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.x-646cff?style=for-the-badge&logo=vite)](https://vitejs.dev/)
@@ -13,29 +13,31 @@
 
 ## 🚀 Live Demo & Visual Showcase
 
-- **Live Deployment URL**: https://qrflex-hazel.vercel.app/
+- **Live Deployment**: [https://qrflex-hazel.vercel.app/](https://qrflex-hazel.vercel.app/)
 
-```
-+---------------------------------------------------------------------------------------+
-|  [QRFlex Pro Studio]                                [Recent (4)]  [Dark / Light Mode] |
-+---------------------------------------------------------------------------------------+
-|                                                           |                           |
-|  1. SELECT TYPE                                           |   REAL-TIME PREVIEW       |
-|  [ URL ] [ Plain Text ] [ Email ] [ Phone ] [ Wi-Fi ]     |   +-------------------+   |
-|                                                           |   | █▀▀▀█ █ █ █ █▀▀▀█ |   |
-|  2. FORM DATA & REAL-TIME VALIDATION                      |   | █   █ ▄ ▄▀▄ █   █ |   |
-|  Target URL / SSID / Key with instant error badges        |   | ▀▀▀▀▀ ▀ ▀ ▀ ▀▀▀▀▀ |   |
-|                                                           |   +-------------------+   |
-|  3. STYLE PRESETS                                         |                           |
-|  [Classic Mono] [Emerald Mint] [Neon Cyber] [Indigo]     |   ✓ High Scan Reliability |
-|                                                           |     Contrast 15.2:1       |
-|  4. CUSTOMIZATION CONTROLS                                |                           |
-|  - Dimension Slider (160px - 420px)                       |   [ Download PNG ]        |
-|  - Foreground & Background Hex Pickers                    |   [ Download SVG ]        |
-|  - Margin / Quiet Zone (0 - 6 blocks)                     |   [ Copy Image ]          |
-|  - Error Correction Level (L, M, Q, H)                    |   [ Copy Payload ]        |
-+---------------------------------------------------------------------------------------+
-```
+<p align="center">
+  <img src="screenshots/hero-banner.png" alt="QRFlex Studio Hero Banner" width="100%">
+</p>
+
+### 💻 3D Interactive Stage & Configuration Deck
+
+<p align="center">
+  <img src="screenshots/dashboard-macbook-dark.png" alt="QRFlex Studio Dashboard — Dark Mode with 3D MacBook Preview" width="100%">
+</p>
+
+### 📱 Multi-Device Stage & Mode Matrix
+
+| 📱 3D iPhone Replica Stage | ☀️ Minimalist Editorial Light Mode |
+| :---: | :---: |
+| <img src="screenshots/dashboard-iphone-dark.png" alt="3D iPhone Replica Stage" width="100%"> | <img src="screenshots/dashboard-light.png" alt="Minimalist Editorial Light Mode" width="100%"> |
+
+<details>
+  <summary><b>📲 Click to expand Mobile Responsive Viewport</b></summary>
+  <br/>
+  <p align="center">
+    <img src="screenshots/mobile-dark.png" alt="QRFlex Mobile View" width="380">
+  </p>
+</details>
 
 ---
 
