@@ -48,6 +48,12 @@ export function buildQRPayload(type: QRType, data: AllFormData): string {
       const hiddenPart = hidden ? 'H:true;' : '';
       return `WIFI:T:${encType};S:${escapeWifiString(ssid.trim())};${passPart}${hiddenPart};`;
     }
+    case 'sms': {
+      const { phone, message } = data.sms;
+      const cleanPhone = phone.trim().replace(/\s+/g, '');
+      if (!cleanPhone) return '';
+      return message.trim() ? `SMSTO:${cleanPhone}:${message.trim()}` : `SMSTO:${cleanPhone}`;
+    }
     default:
       return '';
   }
@@ -63,6 +69,8 @@ export function getPayloadDisplaySummary(type: QRType, data: AllFormData): strin
       return data.email.email || 'Empty email';
     case 'phone':
       return data.phone.phone || 'Empty phone';
+    case 'sms':
+      return data.sms.phone ? `SMS: ${data.sms.phone}` : 'Empty SMS';
     case 'wifi':
       return data.wifi.ssid ? `Wi-Fi: ${data.wifi.ssid}` : 'Empty Wi-Fi';
     default:

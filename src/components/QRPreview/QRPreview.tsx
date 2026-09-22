@@ -199,18 +199,24 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
             <ReliabilityAlert analysis={contrastAnalysis} />
 
             {/* Quick Specs HUD */}
-            <div className="grid grid-cols-3 gap-2 text-center font-mono text-[10px] p-3 rounded-xl dark:bg-obsidian-900/90 bg-slate-100 border dark:border-obsidian-700 border-slate-200 shadow-inner">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono text-[10px] p-3 rounded-xl dark:bg-obsidian-900/90 bg-slate-100 border dark:border-obsidian-700 border-slate-200 shadow-inner">
               <div>
-                <div className="text-slate-500 font-bold">RESOLUTION</div>
-                <div className="font-extrabold text-volt dark:text-volt text-slate-900 text-xs mt-0.5">{design.size} &times; {design.size} PX</div>
+                <div className="text-slate-500 font-bold uppercase">GEOMETRY</div>
+                <div className="font-extrabold text-volt dark:text-volt text-slate-900 text-xs mt-0.5">{design.size}&times;{design.size}PX</div>
               </div>
               <div>
-                <div className="text-slate-500 font-bold">ECC CAPACITY</div>
-                <div className="font-extrabold text-matrix text-xs mt-0.5">LEVEL {design.level}</div>
+                <div className="text-slate-500 font-bold uppercase">ECC RECOVERY</div>
+                <div className="font-extrabold text-matrix text-xs mt-0.5">LEVEL {design.level} ({design.level === 'L' ? '7%' : design.level === 'M' ? '15%' : design.level === 'Q' ? '25%' : '30%'})</div>
               </div>
               <div>
-                <div className="text-slate-500 font-bold">QUIET ZONE</div>
+                <div className="text-slate-500 font-bold uppercase">QUIET ZONE</div>
                 <div className="font-extrabold dark:text-white text-slate-900 text-xs mt-0.5">{design.margin} BLOCKS</div>
+              </div>
+              <div>
+                <div className="text-slate-500 font-bold uppercase">CHASSIS RATIO</div>
+                <div className={`font-extrabold text-xs mt-0.5 ${contrastAnalysis.score === 'poor' ? 'text-red-400' : contrastAnalysis.score === 'acceptable' ? 'text-amber-400' : 'text-matrix'}`}>
+                  {contrastAnalysis.ratio}:1
+                </div>
               </div>
             </div>
           </div>

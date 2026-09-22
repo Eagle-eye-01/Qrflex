@@ -1,4 +1,4 @@
-export type QRType = 'url' | 'text' | 'email' | 'phone' | 'wifi';
+export type QRType = 'url' | 'text' | 'email' | 'phone' | 'sms' | 'wifi';
 
 export type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
 
@@ -20,6 +20,11 @@ export interface PhoneFormData {
   phone: string;
 }
 
+export interface SmsFormData {
+  phone: string;
+  message: string;
+}
+
 export interface WifiFormData {
   ssid: string;
   password: string;
@@ -32,6 +37,7 @@ export type AllFormData = {
   text: TextFormData;
   email: EmailFormData;
   phone: PhoneFormData;
+  sms: SmsFormData;
   wifi: WifiFormData;
 };
 

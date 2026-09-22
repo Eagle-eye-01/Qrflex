@@ -12,14 +12,15 @@ import { ProceduralGradient } from './components/ProceduralGradient';
 import { Zap, ShieldCheck, Activity } from 'lucide-react';
 import heroBgVideo from './assets/hero_bg.mp4';
 
-const STORAGE_HISTORY_KEY = 'qrflex_history_v2';
-const STORAGE_THEME_KEY = 'qrflex_theme_v2';
+const STORAGE_HISTORY_KEY = 'qrflex_session_history';
+const STORAGE_THEME_KEY = 'qrflex_theme';
 
 const INITIAL_FORM_DATA: AllFormData = {
   url: { url: 'https://landonorris.com' },
   text: { text: 'QRFLEX // HIGH-OCTANE VECTOR QR ENGINE // OFF-BRAND SPEC' },
   email: { email: 'contact@offbrand.io', subject: 'Collaboration Inquiry', body: 'Let us build something incredible.' },
   phone: { phone: '+1 555 019 2834' },
+  sms: { phone: '+1 555 019 2834', message: 'Ready to collaborate on the high-octane vector build.' },
   wifi: { ssid: 'LANDO_PITLANE_5G', password: 'racingvoltpassword', encryption: 'WPA', hidden: false },
 };
 
@@ -32,22 +33,26 @@ const DEFAULT_DESIGN: QRDesignSettings = {
 };
 
 export const App: React.FC = () => {
-  // Theme state
+  // Theme state - session scoped
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem(STORAGE_THEME_KEY);
-    if (saved !== null) return saved === 'dark';
+    try {
+      const saved = sessionStorage.getItem(STORAGE_THEME_KEY);
+      if (saved !== null) return saved === 'dark';
+    } catch {
+      // Fallback
+    }
     return true; // Default to dark aesthetic
   });
 
-  // App core state
+  // App core state (isolated per session / tab)
   const [currentType, setCurrentType] = useState<QRType>('url');
   const [formData, setFormData] = useState<AllFormData>(INITIAL_FORM_DATA);
   const [design, setDesign] = useState<QRDesignSettings>(DEFAULT_DESIGN);
 
-  // History state
+  // History state (isolated per session / tab)
   const [history, setHistory] = useState<HistoryItem[]>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_HISTORY_KEY);
+      const saved = sessionStorage.getItem(STORAGE_HISTORY_KEY);
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -65,15 +70,19 @@ export const App: React.FC = () => {
       root.classList.add('light');
       root.classList.remove('dark');
     }
-    localStorage.setItem(STORAGE_THEME_KEY, darkMode ? 'dark' : 'light');
+    try {
+      sessionStorage.setItem(STORAGE_THEME_KEY, darkMode ? 'dark' : 'light');
+    } catch {
+      // ignore
+    }
   }, [darkMode]);
 
-  // Synchronize history with localStorage
+  // Synchronize history with sessionStorage (isolated per session tab)
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(history));
+      sessionStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(history));
     } catch (err) {
-      console.error('Failed to persist history to localStorage', err);
+      console.error('Failed to persist history to sessionStorage', err);
     }
   }, [history]);
 

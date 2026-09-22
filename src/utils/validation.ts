@@ -57,6 +57,20 @@ export function validateForm(type: QRType, data: AllFormData): FormErrors {
       break;
     }
 
+    case 'sms': {
+      const phone = data.sms?.phone.trim() || '';
+      if (!phone) {
+        errors.phone = 'Recipient phone number is required';
+      } else {
+        const phoneDigits = phone.replace(/\D/g, '');
+        const phonePattern = /^\+?[0-9\s\-()]{6,20}$/;
+        if (!phonePattern.test(phone) || phoneDigits.length < 5) {
+          errors.phone = 'Please enter a valid phone number';
+        }
+      }
+      break;
+    }
+
     case 'wifi': {
       const { ssid, password, encryption } = data.wifi;
       if (!ssid.trim()) {
