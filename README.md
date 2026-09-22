@@ -13,7 +13,7 @@
 
 ## 🚀 Live Demo & Visual Showcase
 
-- **Live Deployment URL**: [https://qr-code-designer.vercel.app](https://qr-code-designer.vercel.app) *(or deploy seamlessly via Vercel/Netlify)*
+- **Live Deployment URL**: https://qrflex-hazel.vercel.app/
 
 ```
 +---------------------------------------------------------------------------------------+
